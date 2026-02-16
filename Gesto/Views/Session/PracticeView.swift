@@ -169,6 +169,9 @@ struct PracticeView: View {
         }
         .padding(24)
         .background(.black.opacity(0.85), in: RoundedRectangle(cornerRadius: 16))
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
+        .padding(.trailing, 24)
+        .padding(.bottom, 40)
         .transition(.opacity)
         .allowsHitTesting(false)
     }
