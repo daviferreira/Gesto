@@ -16,6 +16,16 @@ class SessionViewModel {
     private(set) var isPaused: Bool = false
     private(set) var isFinished: Bool = false
 
+    // Transforms
+    private(set) var isGrayscale = false
+    private(set) var isFlippedHorizontal = false
+    private(set) var isFlippedVertical = false
+    private(set) var zoomLevel: Double = 1.0
+
+    var hasActiveTransforms: Bool {
+        isGrayscale || isFlippedHorizontal || isFlippedVertical || zoomLevel != 1.0
+    }
+
     // Session tracking
     let startedAt = Date()
     nonisolated(unsafe) private var timerTask: Task<Void, Never>?
@@ -47,6 +57,8 @@ class SessionViewModel {
             self.images = configuration.images
         }
     }
+
+    // MARK: - Playback
 
     func start() {
         startTimer()
@@ -81,6 +93,21 @@ class SessionViewModel {
     func finish() {
         timerTask?.cancel()
         isFinished = true
+    }
+
+    // MARK: - Transforms
+
+    func toggleGrayscale() { isGrayscale.toggle() }
+    func toggleFlipHorizontal() { isFlippedHorizontal.toggle() }
+    func toggleFlipVertical() { isFlippedVertical.toggle() }
+    func zoomIn() { zoomLevel = min(zoomLevel + 0.25, 5.0) }
+    func zoomOut() { zoomLevel = max(zoomLevel - 0.25, 0.25) }
+
+    func resetTransforms() {
+        isGrayscale = false
+        isFlippedHorizontal = false
+        isFlippedVertical = false
+        zoomLevel = 1.0
     }
 
     // MARK: - Timer

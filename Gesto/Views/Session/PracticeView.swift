@@ -16,16 +16,31 @@ struct PracticeView: View {
         ZStack {
             Color.black.ignoresSafeArea()
 
-            // Reference image
+            // Reference image with transforms
             if let current = viewModel.currentImage {
                 FullImage(filename: current.filename, boardId: viewModel.boardId)
+                    .grayscale(viewModel.isGrayscale ? 1.0 : 0)
+                    .scaleEffect(
+                        x: (viewModel.isFlippedHorizontal ? -1 : 1) * viewModel.zoomLevel,
+                        y: (viewModel.isFlippedVertical ? -1 : 1) * viewModel.zoomLevel
+                    )
+                    .animation(.easeInOut(duration: 0.2), value: viewModel.isGrayscale)
+                    .animation(.easeInOut(duration: 0.2), value: viewModel.isFlippedHorizontal)
+                    .animation(.easeInOut(duration: 0.2), value: viewModel.isFlippedVertical)
+                    .animation(.easeInOut(duration: 0.2), value: viewModel.zoomLevel)
                     .id(current.id)
                     .transition(.opacity)
             }
 
             // UI overlay
             VStack {
-                imageCounter
+                HStack {
+                    transformIndicators
+                    Spacer()
+                    imageCounter
+                }
+                .padding()
+
                 Spacer()
                 timerOverlay
             }
@@ -34,6 +49,7 @@ struct PracticeView: View {
         .focused($isFocused)
         .focusEffectDisabled()
         .animation(.easeInOut(duration: 0.3), value: viewModel.currentIndex)
+        // Playback controls
         .onKeyPress(.space) {
             viewModel.togglePause()
             return .handled
@@ -54,6 +70,36 @@ struct PracticeView: View {
             viewModel.previousImage()
             return .handled
         }
+        // Transform controls
+        .onKeyPress("g") {
+            viewModel.toggleGrayscale()
+            return .handled
+        }
+        .onKeyPress("f") {
+            viewModel.toggleFlipHorizontal()
+            return .handled
+        }
+        .onKeyPress("v") {
+            viewModel.toggleFlipVertical()
+            return .handled
+        }
+        .onKeyPress("r") {
+            viewModel.resetTransforms()
+            return .handled
+        }
+        .onKeyPress("=") {
+            viewModel.zoomIn()
+            return .handled
+        }
+        .onKeyPress("+") {
+            viewModel.zoomIn()
+            return .handled
+        }
+        .onKeyPress("-") {
+            viewModel.zoomOut()
+            return .handled
+        }
+        // Session controls
         .onKeyPress(.escape) {
             if viewModel.isFinished { return .ignored }
             showingEndConfirmation = true
@@ -85,17 +131,44 @@ struct PracticeView: View {
 
     // MARK: - Overlay Components
 
-    private var imageCounter: some View {
-        HStack {
-            Spacer()
-            Text("\(viewModel.currentIndex + 1) / \(viewModel.images.count)")
-                .font(.caption.monospacedDigit())
-                .foregroundStyle(.white.opacity(0.6))
-                .padding(.horizontal, 10)
-                .padding(.vertical, 6)
-                .background(.black.opacity(0.5), in: RoundedRectangle(cornerRadius: 6))
+    private var transformIndicators: some View {
+        HStack(spacing: 6) {
+            if viewModel.isGrayscale {
+                transformBadge("circle.lefthalf.striped.horizontal")
+            }
+            if viewModel.isFlippedHorizontal {
+                transformBadge("arrow.left.and.right.righttriangle.left.righttriangle.right")
+            }
+            if viewModel.isFlippedVertical {
+                transformBadge("arrow.up.and.down.righttriangle.up.righttriangle.down")
+            }
+            if viewModel.zoomLevel != 1.0 {
+                Text("\(Int(viewModel.zoomLevel * 100))%")
+                    .font(.caption2.monospacedDigit().bold())
+                    .foregroundStyle(.white.opacity(0.6))
+                    .padding(.horizontal, 6)
+                    .padding(.vertical, 4)
+                    .background(.black.opacity(0.5), in: RoundedRectangle(cornerRadius: 4))
+            }
         }
-        .padding()
+        .animation(.easeInOut(duration: 0.15), value: viewModel.hasActiveTransforms)
+    }
+
+    private func transformBadge(_ systemName: String) -> some View {
+        Image(systemName: systemName)
+            .font(.caption2)
+            .foregroundStyle(.orange.opacity(0.8))
+            .padding(4)
+            .background(.black.opacity(0.5), in: RoundedRectangle(cornerRadius: 4))
+    }
+
+    private var imageCounter: some View {
+        Text("\(viewModel.currentIndex + 1) / \(viewModel.images.count)")
+            .font(.caption.monospacedDigit())
+            .foregroundStyle(.white.opacity(0.6))
+            .padding(.horizontal, 10)
+            .padding(.vertical, 6)
+            .background(.black.opacity(0.5), in: RoundedRectangle(cornerRadius: 6))
     }
 
     private var timerOverlay: some View {
@@ -128,16 +201,26 @@ struct PracticeView: View {
 
     private func enterFullScreen() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            if let window = NSApp.keyWindow, !window.styleMask.contains(.fullScreen) {
+            guard let window = NSApp.keyWindow else { return }
+            window.toolbar?.isVisible = false
+            window.titlebarAppearsTransparent = true
+            window.titleVisibility = .hidden
+            window.styleMask.insert(.fullSizeContentView)
+            if !window.styleMask.contains(.fullScreen) {
                 window.toggleFullScreen(nil)
             }
         }
     }
 
     private func exitFullScreen() {
-        if let window = NSApp.keyWindow, window.styleMask.contains(.fullScreen) {
+        guard let window = NSApp.keyWindow else { return }
+        if window.styleMask.contains(.fullScreen) {
             window.toggleFullScreen(nil)
         }
+        window.toolbar?.isVisible = true
+        window.titlebarAppearsTransparent = false
+        window.titleVisibility = .visible
+        window.styleMask.remove(.fullSizeContentView)
     }
 }
 
