@@ -139,7 +139,7 @@ struct PracticeView: View {
             Button("Continue") {
                 viewModel.togglePause()
             }
-            Button("End Session", role: .destructive) {
+            Button("End Session") {
                 viewModel.finish()
             }
         } message: {

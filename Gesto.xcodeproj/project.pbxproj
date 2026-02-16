@@ -12,6 +12,7 @@
 		11A6E5432D743229150D9FB6 /* EmptyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06434F367941721A4A9DBAD3 /* EmptyStateView.swift */; };
 		15AB3D1E408CAADC08B36F62 /* Board.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44F40449761A36C96C5D3D8F /* Board.swift */; };
 		206853AC8EA84A07F3E47C6C /* SessionConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB37221480D2C17B760D0540 /* SessionConfiguration.swift */; };
+		2A49962851643B4EAD970699 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C00617268B1D521D4F2B9B1A /* Assets.xcassets */; };
 		2AC15DE990D38598BC9DB173 /* PracticeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70280438ACAB41CDDFCBB20C /* PracticeView.swift */; };
 		355A070694DC33BD7C76235A /* NewBoardSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F10A42EC46B9FF77BE651D5 /* NewBoardSheet.swift */; };
 		5131937809011D3CEB80B54C /* LibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9EA01C6F9B6DD798BB45E2 /* LibraryView.swift */; };
@@ -49,6 +50,7 @@
 		8D9EA01C6F9B6DD798BB45E2 /* LibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryView.swift; sourceTree = "<group>"; };
 		940E100E326DB0EC5C3A7D4A /* ImageThumbnail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageThumbnail.swift; sourceTree = "<group>"; };
 		B4B342CC88238E206F446059 /* SessionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionViewModel.swift; sourceTree = "<group>"; };
+		C00617268B1D521D4F2B9B1A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CC66A743B4DA31FC6C74FD04 /* BoardDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardDetailView.swift; sourceTree = "<group>"; };
 		CFEC3EF9D4166626D7639EF4 /* ReferenceImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferenceImage.swift; sourceTree = "<group>"; };
 		DB37221480D2C17B760D0540 /* SessionConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionConfiguration.swift; sourceTree = "<group>"; };
@@ -81,6 +83,7 @@
 				0F646EE8AC637FA6913A8A06 /* Gesto.entitlements */,
 				0392E42AC4A7860547E04EF8 /* GestoApp.swift */,
 				A8216653E26D00BC3F829FFF /* Models */,
+				F9BFD7FFDA2BA5BE8378F1CA /* Resources */,
 				FB834A6D7E5B2483548C0FEB /* Services */,
 				52D7677A17034151326D63B3 /* Utilities */,
 				3D4A872F5F127FB1D6EC1F6C /* ViewModels */,
@@ -174,6 +177,14 @@
 			path = History;
 			sourceTree = "<group>";
 		};
+		F9BFD7FFDA2BA5BE8378F1CA /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				C00617268B1D521D4F2B9B1A /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		FB834A6D7E5B2483548C0FEB /* Services */ = {
 			isa = PBXGroup;
 			children = (
@@ -190,6 +201,7 @@
 			buildConfigurationList = 7D2F6B00D7E34AC52DE0CA34 /* Build configuration list for PBXNativeTarget "Gesto" */;
 			buildPhases = (
 				E8D4C522A8D8B4771F903265 /* Sources */,
+				B20E335D13A038A4AC227D10 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -229,6 +241,17 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		B20E335D13A038A4AC227D10 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2A49962851643B4EAD970699 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		E8D4C522A8D8B4771F903265 /* Sources */ = {

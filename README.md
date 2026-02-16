@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="icon.png" width="128" height="128" alt="Gesto icon">
+</p>
+
 # Gesto
 
 A macOS-native gesture drawing reference tool for artists. Organize reference images into boards, run timed drawing sessions, and practice with distraction-free fullscreen display.
