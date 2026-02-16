@@ -16,10 +16,8 @@ targets:
     platform: macOS
     sources:
       - path: Gesto
-        excludes:
-          - Resources
-    resources:
       - path: Gesto/Resources/Assets.xcassets
+        buildPhase: resources
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.gesto.app
