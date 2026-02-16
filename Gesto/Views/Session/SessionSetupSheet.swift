@@ -53,13 +53,7 @@ struct SessionSetupSheet: View {
                 .font(.headline)
             HStack(spacing: 8) {
                 ForEach(presets, id: \.1) { label, seconds in
-                    Button(label) {
-                        timerInterval = seconds
-                        isCustomTimer = false
-                        customSeconds = ""
-                    }
-                    .buttonStyle(.bordered)
-                    .tint(timerInterval == seconds && !isCustomTimer ? .orange : nil)
+                    presetButton(label, seconds: seconds)
                 }
 
                 HStack(spacing: 4) {
@@ -107,7 +101,28 @@ struct SessionSetupSheet: View {
         }
     }
 
+    // MARK: - Components
+
+    @ViewBuilder
+    private func presetButton(_ label: String, seconds: TimeInterval) -> some View {
+        let isSelected = timerInterval == seconds && !isCustomTimer
+        if isSelected {
+            Button(label) { selectPreset(seconds) }
+                .buttonStyle(.borderedProminent)
+                .tint(.orange)
+        } else {
+            Button(label) { selectPreset(seconds) }
+                .buttonStyle(.bordered)
+        }
+    }
+
     // MARK: - Actions
+
+    private func selectPreset(_ seconds: TimeInterval) {
+        timerInterval = seconds
+        isCustomTimer = false
+        customSeconds = ""
+    }
 
     private func startSession() {
         lastTimerInterval = timerInterval
