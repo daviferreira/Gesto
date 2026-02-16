@@ -14,29 +14,46 @@ enum SidebarItem: String, CaseIterable {
 
 struct ContentView: View {
     @State private var selectedSidebar: SidebarItem? = .library
+    @State private var activeSession: SessionConfiguration?
 
     var body: some View {
-        NavigationSplitView {
-            List(SidebarItem.allCases, id: \.self, selection: $selectedSidebar) { item in
-                Label(item.rawValue, systemImage: item.icon)
-            }
-            .navigationTitle("Gesto")
-        } detail: {
-            NavigationStack {
-                Group {
-                    switch selectedSidebar {
-                    case .library, nil:
-                        LibraryView()
-                    case .history:
-                        HistoryView()
+        ZStack {
+            NavigationSplitView {
+                List(SidebarItem.allCases, id: \.self, selection: $selectedSidebar) { item in
+                    Label(item.rawValue, systemImage: item.icon)
+                }
+                .navigationTitle("Gesto")
+            } detail: {
+                NavigationStack {
+                    Group {
+                        switch selectedSidebar {
+                        case .library, nil:
+                            LibraryView()
+                        case .history:
+                            HistoryView()
+                        }
+                    }
+                    .navigationDestination(for: UUID.self) { boardId in
+                        BoardDetailView(boardId: boardId)
                     }
                 }
-                .navigationDestination(for: UUID.self) { boardId in
-                    BoardDetailView(boardId: boardId)
+            }
+
+            if let config = activeSession {
+                PracticeView(configuration: config) { vm in
+                    withAnimation {
+                        activeSession = nil
+                    }
                 }
+                .transition(.opacity)
             }
         }
         .frame(minWidth: 800, minHeight: 600)
         .tint(.orange)
+        .environment(\.startSession) { config in
+            withAnimation {
+                activeSession = config
+            }
+        }
     }
 }

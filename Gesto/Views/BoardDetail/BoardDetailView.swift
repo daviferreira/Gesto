@@ -5,9 +5,11 @@ import UniformTypeIdentifiers
 struct BoardDetailView: View {
     let boardId: UUID
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.startSession) private var startSession
     @Query private var boards: [Board]
     @State private var viewModel: BoardDetailViewModel?
     @State private var showingFilePicker = false
+    @State private var showingSessionSetup = false
     @State private var selectedImages: Set<UUID> = []
     @State private var isDropTargeted = false
 
@@ -84,6 +86,13 @@ struct BoardDetailView: View {
                     .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 12))
             }
         }
+        .sheet(isPresented: $showingSessionSetup) {
+            if let b = self.board {
+                SessionSetupSheet(board: b) { config in
+                    startSession(config)
+                }
+            }
+        }
     }
 
     private var emptyState: some View {
@@ -143,7 +152,7 @@ struct BoardDetailView: View {
             .keyboardShortcut("i", modifiers: .command)
 
             Button {
-                // Non-functional — Step 4
+                showingSessionSetup = true
             } label: {
                 Label("Start Session", systemImage: "play.fill")
             }
