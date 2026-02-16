@@ -14,10 +14,13 @@
 		355A070694DC33BD7C76235A /* NewBoardSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F10A42EC46B9FF77BE651D5 /* NewBoardSheet.swift */; };
 		5131937809011D3CEB80B54C /* LibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9EA01C6F9B6DD798BB45E2 /* LibraryView.swift */; };
 		53DCC20AC6DB9FCB1B5AB0DA /* BoardDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC66A743B4DA31FC6C74FD04 /* BoardDetailView.swift */; };
+		692DBDAAE122023672A3D7FB /* BoardDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577F624744B4D37046D08972 /* BoardDetailViewModel.swift */; };
 		9D5549C73C2EDD9BCAFEDEDB /* GestoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0392E42AC4A7860547E04EF8 /* GestoApp.swift */; };
 		A3AEC2C535F1803A122139B2 /* ReferenceImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFEC3EF9D4166626D7639EF4 /* ReferenceImage.swift */; };
 		A82719AE4FCC6EBC307B11FE /* SessionRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF8803A16FB66B91F9B4AFB0 /* SessionRecord.swift */; };
 		AE353D7614AD5D14EA53D287 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D48CE4B02E82E1930691FC6 /* HistoryView.swift */; };
+		C2F67661BAA96974C5161445 /* ImageThumbnail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 940E100E326DB0EC5C3A7D4A /* ImageThumbnail.swift */; };
+		CCBF144777E6BECDD00276B0 /* ImageStorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D1C0159C383B77E86CCC861 /* ImageStorageService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,9 +31,12 @@
 		0F10A42EC46B9FF77BE651D5 /* NewBoardSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewBoardSheet.swift; sourceTree = "<group>"; };
 		0F646EE8AC637FA6913A8A06 /* Gesto.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Gesto.entitlements; sourceTree = "<group>"; };
 		44F40449761A36C96C5D3D8F /* Board.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Board.swift; sourceTree = "<group>"; };
+		577F624744B4D37046D08972 /* BoardDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardDetailViewModel.swift; sourceTree = "<group>"; };
 		607757E83F0842DD5E847026 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		7D1C0159C383B77E86CCC861 /* ImageStorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageStorageService.swift; sourceTree = "<group>"; };
 		8D48CE4B02E82E1930691FC6 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
 		8D9EA01C6F9B6DD798BB45E2 /* LibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryView.swift; sourceTree = "<group>"; };
+		940E100E326DB0EC5C3A7D4A /* ImageThumbnail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageThumbnail.swift; sourceTree = "<group>"; };
 		CC66A743B4DA31FC6C74FD04 /* BoardDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardDetailView.swift; sourceTree = "<group>"; };
 		CFEC3EF9D4166626D7639EF4 /* ReferenceImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferenceImage.swift; sourceTree = "<group>"; };
 		DF8803A16FB66B91F9B4AFB0 /* SessionRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionRecord.swift; sourceTree = "<group>"; };
@@ -72,6 +78,7 @@
 		3D4A872F5F127FB1D6EC1F6C /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				577F624744B4D37046D08972 /* BoardDetailViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -112,6 +119,7 @@
 			isa = PBXGroup;
 			children = (
 				CC66A743B4DA31FC6C74FD04 /* BoardDetailView.swift */,
+				940E100E326DB0EC5C3A7D4A /* ImageThumbnail.swift */,
 			);
 			path = BoardDetail;
 			sourceTree = "<group>";
@@ -148,6 +156,7 @@
 		FB834A6D7E5B2483548C0FEB /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				7D1C0159C383B77E86CCC861 /* ImageStorageService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -208,10 +217,13 @@
 				15AB3D1E408CAADC08B36F62 /* Board.swift in Sources */,
 				0614159640D35012CCDE0439 /* BoardCard.swift in Sources */,
 				53DCC20AC6DB9FCB1B5AB0DA /* BoardDetailView.swift in Sources */,
+				692DBDAAE122023672A3D7FB /* BoardDetailViewModel.swift in Sources */,
 				00BA54EAD9CA7A4032C7328E /* ContentView.swift in Sources */,
 				11A6E5432D743229150D9FB6 /* EmptyStateView.swift in Sources */,
 				9D5549C73C2EDD9BCAFEDEDB /* GestoApp.swift in Sources */,
 				AE353D7614AD5D14EA53D287 /* HistoryView.swift in Sources */,
+				CCBF144777E6BECDD00276B0 /* ImageStorageService.swift in Sources */,
+				C2F67661BAA96974C5161445 /* ImageThumbnail.swift in Sources */,
 				5131937809011D3CEB80B54C /* LibraryView.swift in Sources */,
 				355A070694DC33BD7C76235A /* NewBoardSheet.swift in Sources */,
 				A3AEC2C535F1803A122139B2 /* ReferenceImage.swift in Sources */,

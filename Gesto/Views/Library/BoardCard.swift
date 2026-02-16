@@ -9,12 +9,12 @@ struct BoardCard: View {
                 .fill(.quaternary)
                 .aspectRatio(4 / 3, contentMode: .fit)
                 .overlay {
-                    if board.images.isEmpty {
+                    if let firstImage = board.images.sorted(by: { $0.sortOrder < $1.sortOrder }).first {
+                        CardThumbnail(image: firstImage, boardId: board.id)
+                    } else {
                         Image(systemName: "photo.on.rectangle")
                             .font(.title)
                             .foregroundStyle(.secondary)
-                    } else {
-                        thumbnailMosaic
                     }
                 }
                 .clipShape(RoundedRectangle(cornerRadius: 8))
@@ -32,37 +32,26 @@ struct BoardCard: View {
         .padding(8)
         .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 12))
     }
+}
 
-    @ViewBuilder
-    private var thumbnailMosaic: some View {
-        let imageCount = min(board.images.count, 4)
-        if imageCount == 1 {
-            Image(systemName: "photo.fill")
-                .font(.largeTitle)
-                .foregroundStyle(.secondary)
-        } else {
-            Grid(horizontalSpacing: 2, verticalSpacing: 2) {
-                GridRow {
-                    imagePlaceholder
-                    if imageCount > 1 { imagePlaceholder }
-                }
-                if imageCount > 2 {
-                    GridRow {
-                        imagePlaceholder
-                        if imageCount > 3 { imagePlaceholder }
-                    }
-                }
+private struct CardThumbnail: View {
+    let image: ReferenceImage
+    let boardId: UUID
+    @State private var nsImage: NSImage?
+
+    var body: some View {
+        Group {
+            if let nsImage {
+                Image(nsImage: nsImage)
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+            } else {
+                Color.clear
             }
         }
-    }
-
-    private var imagePlaceholder: some View {
-        Rectangle()
-            .fill(.tertiary)
-            .overlay {
-                Image(systemName: "photo")
-                    .foregroundStyle(.secondary)
-                    .font(.caption)
-            }
+        .task {
+            let thumbURL = ImageStorageService.shared.thumbnailURL(for: image.filename, boardId: boardId)
+            nsImage = NSImage(contentsOf: thumbURL)
+        }
     }
 }
