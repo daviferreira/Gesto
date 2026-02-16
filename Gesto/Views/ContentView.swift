@@ -24,12 +24,43 @@ struct ContentView: View {
 
     var body: some View {
         ZStack {
-            NavigationSplitView {
-                List(SidebarItem.allCases, id: \.self, selection: $selectedSidebar) { item in
-                    Label(item.rawValue, systemImage: item.icon)
+            HStack(spacing: 0) {
+                // Fixed sidebar
+                VStack(alignment: .leading, spacing: 0) {
+                    Text("Gesto")
+                        .font(.headline)
+                        .padding(.horizontal, 16)
+                        .padding(.top, 12)
+                        .padding(.bottom, 8)
+
+                    ForEach(SidebarItem.allCases, id: \.self) { item in
+                        Button {
+                            selectedSidebar = item
+                        } label: {
+                            Label(item.rawValue, systemImage: item.icon)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .padding(.vertical, 6)
+                                .padding(.horizontal, 12)
+                                .background(
+                                    selectedSidebar == item
+                                        ? .orange.opacity(0.15)
+                                        : .clear,
+                                    in: RoundedRectangle(cornerRadius: 6)
+                                )
+                                .foregroundStyle(selectedSidebar == item ? .orange : .primary)
+                        }
+                        .buttonStyle(.plain)
+                        .padding(.horizontal, 8)
+                    }
+
+                    Spacer()
                 }
-                .navigationTitle("Gesto")
-            } detail: {
+                .frame(width: 180)
+                .background(.ultraThinMaterial)
+
+                Divider()
+
+                // Detail content
                 NavigationStack {
                     Group {
                         switch selectedSidebar {
@@ -43,6 +74,7 @@ struct ContentView: View {
                         BoardDetailView(boardId: boardId)
                     }
                 }
+                .frame(maxWidth: .infinity)
             }
 
             switch sessionPhase {
