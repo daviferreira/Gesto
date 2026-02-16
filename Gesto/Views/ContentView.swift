@@ -12,9 +12,15 @@ enum SidebarItem: String, CaseIterable {
     }
 }
 
+enum SessionPhase {
+    case idle
+    case practicing(SessionConfiguration)
+    case summary(config: SessionConfiguration, viewModel: SessionViewModel)
+}
+
 struct ContentView: View {
     @State private var selectedSidebar: SidebarItem? = .library
-    @State private var activeSession: SessionConfiguration?
+    @State private var sessionPhase: SessionPhase = .idle
 
     var body: some View {
         ZStack {
@@ -39,12 +45,28 @@ struct ContentView: View {
                 }
             }
 
-            if let config = activeSession {
+            switch sessionPhase {
+            case .idle:
+                EmptyView()
+
+            case .practicing(let config):
                 PracticeView(configuration: config) { vm in
                     withAnimation {
-                        activeSession = nil
+                        sessionPhase = .summary(config: config, viewModel: vm)
                     }
                 }
+                .transition(.opacity)
+
+            case .summary(let config, let vm):
+                SessionSummaryView(
+                    viewModel: vm,
+                    onClose: {
+                        withAnimation { sessionPhase = .idle }
+                    },
+                    onRestart: {
+                        withAnimation { sessionPhase = .practicing(config) }
+                    }
+                )
                 .transition(.opacity)
             }
         }
@@ -52,7 +74,7 @@ struct ContentView: View {
         .tint(.orange)
         .environment(\.startSession) { config in
             withAnimation {
-                activeSession = config
+                sessionPhase = .practicing(config)
             }
         }
     }

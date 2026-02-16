@@ -15,6 +15,7 @@
 		2AC15DE990D38598BC9DB173 /* PracticeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70280438ACAB41CDDFCBB20C /* PracticeView.swift */; };
 		355A070694DC33BD7C76235A /* NewBoardSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F10A42EC46B9FF77BE651D5 /* NewBoardSheet.swift */; };
 		5131937809011D3CEB80B54C /* LibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9EA01C6F9B6DD798BB45E2 /* LibraryView.swift */; };
+		52F779F03F934FB6694849E5 /* Formatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BDF5589B72DA97063DCFEA9 /* Formatting.swift */; };
 		53DCC20AC6DB9FCB1B5AB0DA /* BoardDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC66A743B4DA31FC6C74FD04 /* BoardDetailView.swift */; };
 		692DBDAAE122023672A3D7FB /* BoardDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577F624744B4D37046D08972 /* BoardDetailViewModel.swift */; };
 		829A350E9A5EE12D5E11CC7C /* SessionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4B342CC88238E206F446059 /* SessionViewModel.swift */; };
@@ -26,6 +27,7 @@
 		CBA75930DEAABF103FFD4640 /* SessionSetupSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D741FEEEF74817397F7411D /* SessionSetupSheet.swift */; };
 		CCBF144777E6BECDD00276B0 /* ImageStorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D1C0159C383B77E86CCC861 /* ImageStorageService.swift */; };
 		E556A3DF71ED32D3648E4461 /* TimerBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 219DA43CA7AB0B8B103F2F40 /* TimerBar.swift */; };
+		F00B2E39979832C4A8C56E9D /* SessionSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6627CD6617F74F5F8B6269 /* SessionSummaryView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +42,7 @@
 		44F40449761A36C96C5D3D8F /* Board.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Board.swift; sourceTree = "<group>"; };
 		577F624744B4D37046D08972 /* BoardDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardDetailViewModel.swift; sourceTree = "<group>"; };
 		607757E83F0842DD5E847026 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		6BDF5589B72DA97063DCFEA9 /* Formatting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Formatting.swift; sourceTree = "<group>"; };
 		70280438ACAB41CDDFCBB20C /* PracticeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticeView.swift; sourceTree = "<group>"; };
 		7D1C0159C383B77E86CCC861 /* ImageStorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageStorageService.swift; sourceTree = "<group>"; };
 		8D48CE4B02E82E1930691FC6 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
@@ -50,6 +53,7 @@
 		CFEC3EF9D4166626D7639EF4 /* ReferenceImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferenceImage.swift; sourceTree = "<group>"; };
 		DB37221480D2C17B760D0540 /* SessionConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionConfiguration.swift; sourceTree = "<group>"; };
 		DF8803A16FB66B91F9B4AFB0 /* SessionRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionRecord.swift; sourceTree = "<group>"; };
+		FA6627CD6617F74F5F8B6269 /* SessionSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionSummaryView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -97,6 +101,7 @@
 		52D7677A17034151326D63B3 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				6BDF5589B72DA97063DCFEA9 /* Formatting.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -115,6 +120,7 @@
 			children = (
 				70280438ACAB41CDDFCBB20C /* PracticeView.swift */,
 				0D741FEEEF74817397F7411D /* SessionSetupSheet.swift */,
+				FA6627CD6617F74F5F8B6269 /* SessionSummaryView.swift */,
 			);
 			path = Session;
 			sourceTree = "<group>";
@@ -235,6 +241,7 @@
 				692DBDAAE122023672A3D7FB /* BoardDetailViewModel.swift in Sources */,
 				00BA54EAD9CA7A4032C7328E /* ContentView.swift in Sources */,
 				11A6E5432D743229150D9FB6 /* EmptyStateView.swift in Sources */,
+				52F779F03F934FB6694849E5 /* Formatting.swift in Sources */,
 				9D5549C73C2EDD9BCAFEDEDB /* GestoApp.swift in Sources */,
 				AE353D7614AD5D14EA53D287 /* HistoryView.swift in Sources */,
 				CCBF144777E6BECDD00276B0 /* ImageStorageService.swift in Sources */,
@@ -246,6 +253,7 @@
 				206853AC8EA84A07F3E47C6C /* SessionConfiguration.swift in Sources */,
 				A82719AE4FCC6EBC307B11FE /* SessionRecord.swift in Sources */,
 				CBA75930DEAABF103FFD4640 /* SessionSetupSheet.swift in Sources */,
+				F00B2E39979832C4A8C56E9D /* SessionSummaryView.swift in Sources */,
 				829A350E9A5EE12D5E11CC7C /* SessionViewModel.swift in Sources */,
 				E556A3DF71ED32D3648E4461 /* TimerBar.swift in Sources */,
 			);
