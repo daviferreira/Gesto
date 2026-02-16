@@ -6,6 +6,7 @@ struct PracticeView: View {
 
     @FocusState private var isFocused: Bool
     @State private var showingEndConfirmation = false
+    @State private var showingHelp = true
 
     init(configuration: SessionConfiguration, onEnd: @escaping (SessionViewModel) -> Void) {
         self.onEnd = onEnd
@@ -43,6 +44,11 @@ struct PracticeView: View {
 
                 Spacer()
                 timerOverlay
+            }
+
+            // Help overlay
+            if showingHelp {
+                controlsHelp
             }
         }
         .focusable()
@@ -99,6 +105,14 @@ struct PracticeView: View {
             viewModel.zoomOut()
             return .handled
         }
+        .onKeyPress("?") {
+            withAnimation { showingHelp.toggle() }
+            return .handled
+        }
+        .onKeyPress("/") {
+            withAnimation { showingHelp.toggle() }
+            return .handled
+        }
         // Session controls
         .onKeyPress(.escape) {
             if viewModel.isFinished { return .ignored }
@@ -110,6 +124,10 @@ struct PracticeView: View {
             isFocused = true
             viewModel.start()
             enterFullScreen()
+            // Auto-dismiss help after 4 seconds
+            DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+                withAnimation { showingHelp = false }
+            }
         }
         .onChange(of: viewModel.isFinished) {
             if viewModel.isFinished {
@@ -126,6 +144,44 @@ struct PracticeView: View {
             }
         } message: {
             Text("Your session progress will be saved.")
+        }
+    }
+
+    // MARK: - Controls Help
+
+    private var controlsHelp: some View {
+        VStack(spacing: 12) {
+            Text("Keyboard Controls")
+                .font(.headline)
+                .foregroundStyle(.white)
+
+            Grid(alignment: .leading, horizontalSpacing: 20, verticalSpacing: 6) {
+                shortcutRow("Space", "Pause / Resume")
+                shortcutRow("\u{2190} \u{2192}  A D", "Previous / Next image")
+                shortcutRow("G", "Toggle grayscale")
+                shortcutRow("F", "Flip horizontal")
+                shortcutRow("V", "Flip vertical")
+                shortcutRow("+ / \u{2212}", "Zoom in / out")
+                shortcutRow("R", "Reset transforms")
+                shortcutRow("Esc", "End session")
+                shortcutRow("?", "Toggle this help")
+            }
+        }
+        .padding(24)
+        .background(.black.opacity(0.85), in: RoundedRectangle(cornerRadius: 16))
+        .transition(.opacity)
+        .allowsHitTesting(false)
+    }
+
+    private func shortcutRow(_ key: String, _ action: String) -> some View {
+        GridRow {
+            Text(key)
+                .font(.system(.caption, design: .monospaced).bold())
+                .foregroundStyle(.orange)
+                .frame(minWidth: 80, alignment: .trailing)
+            Text(action)
+                .font(.caption)
+                .foregroundStyle(.white.opacity(0.8))
         }
     }
 
