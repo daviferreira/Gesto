@@ -6,6 +6,10 @@
 
 A macOS-native gesture drawing reference tool for artists. Organize reference images into boards, run timed drawing sessions, and practice with distraction-free fullscreen display.
 
+<p align="center">
+  <img src="screenshot.png" width="640" alt="Gesto screenshot">
+</p>
+
 ## Features
 
 - **Board Management** -- Create boards to organize reference images by theme, project, or subject
