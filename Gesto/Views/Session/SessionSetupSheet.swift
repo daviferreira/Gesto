@@ -21,7 +21,7 @@ struct SessionSetupSheet: View {
     var body: some View {
         VStack(spacing: 24) {
             Text("Session Setup")
-                .font(.title2.bold())
+                .font(.title.bold())
 
             timerSection
             orderSection
@@ -50,7 +50,7 @@ struct SessionSetupSheet: View {
     private var timerSection: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text("Timer per image")
-                .font(.headline)
+                .font(.title3)
             HStack(spacing: 8) {
                 ForEach(presets, id: \.1) { label, seconds in
                     presetButton(label, seconds: seconds)
@@ -76,7 +76,7 @@ struct SessionSetupSheet: View {
     private var orderSection: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text("Playback order")
-                .font(.headline)
+                .font(.title3)
             Picker("Order", selection: $playbackOrder) {
                 Text("Shuffle").tag(PlaybackOrder.shuffle)
                 Text("Sequential").tag(PlaybackOrder.sequential)
@@ -89,7 +89,7 @@ struct SessionSetupSheet: View {
     private var imageCountSection: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text("Number of images")
-                .font(.headline)
+                .font(.title3)
             Toggle("Use all images (\(board.images.count))", isOn: $useAllImages)
             if !useAllImages {
                 Stepper(

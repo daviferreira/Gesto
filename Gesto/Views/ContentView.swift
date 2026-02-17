@@ -29,7 +29,7 @@ struct ContentView: View {
                 // Fixed sidebar
                 VStack(alignment: .leading, spacing: 0) {
                     Text("Gesto")
-                        .font(.headline)
+                        .font(.title3.bold())
                         .padding(.horizontal, 16)
                         .padding(.top, 12)
                         .padding(.bottom, 8)
@@ -40,8 +40,9 @@ struct ContentView: View {
                         } label: {
                             Label(item.rawValue, systemImage: item.icon)
                                 .frame(maxWidth: .infinity, alignment: .leading)
-                                .padding(.vertical, 6)
+                                .padding(.vertical, 8)
                                 .padding(.horizontal, 12)
+                                .contentShape(Rectangle())
                                 .background(
                                     selectedSidebar == item
                                         ? .orange.opacity(0.15)

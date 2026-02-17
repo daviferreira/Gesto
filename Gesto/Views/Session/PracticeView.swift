@@ -151,7 +151,7 @@ struct PracticeView: View {
     private var controlsHelp: some View {
         VStack(spacing: 12) {
             Text("Keyboard Controls")
-                .font(.headline)
+                .font(.title3)
                 .foregroundStyle(.white)
 
             Grid(alignment: .leading, horizontalSpacing: 20, verticalSpacing: 6) {
@@ -178,11 +178,11 @@ struct PracticeView: View {
     private func shortcutRow(_ key: String, _ action: String) -> some View {
         GridRow {
             Text(key)
-                .font(.system(.caption, design: .monospaced).bold())
+                .font(.system(.subheadline, design: .monospaced).bold())
                 .foregroundStyle(.orange)
-                .frame(minWidth: 80, alignment: .trailing)
+                .frame(minWidth: 90, alignment: .trailing)
             Text(action)
-                .font(.caption)
+                .font(.subheadline)
                 .foregroundStyle(.white.opacity(0.8))
         }
     }
@@ -202,7 +202,7 @@ struct PracticeView: View {
             }
             if viewModel.zoomLevel != 1.0 {
                 Text("\(Int(viewModel.zoomLevel * 100))%")
-                    .font(.caption2.monospacedDigit().bold())
+                    .font(.caption.monospacedDigit().bold())
                     .foregroundStyle(.white.opacity(0.6))
                     .padding(.horizontal, 6)
                     .padding(.vertical, 4)
@@ -214,7 +214,7 @@ struct PracticeView: View {
 
     private func transformBadge(_ systemName: String) -> some View {
         Image(systemName: systemName)
-            .font(.caption2)
+            .font(.caption)
             .foregroundStyle(.orange.opacity(0.8))
             .padding(4)
             .background(.black.opacity(0.5), in: RoundedRectangle(cornerRadius: 4))
@@ -224,7 +224,7 @@ struct PracticeView: View {
         VStack(spacing: 4) {
             if viewModel.isPaused {
                 Text("PAUSED")
-                    .font(.caption.bold())
+                    .font(.subheadline.bold())
                     .foregroundStyle(.orange)
             }
 

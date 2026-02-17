@@ -30,7 +30,7 @@ struct SessionSummaryView: View {
                 VStack(spacing: 8) {
                     Image(systemName: viewModel.completedAllImages
                           ? "checkmark.circle.fill" : "stop.circle.fill")
-                        .font(.system(size: 40))
+                        .font(.system(size: 48))
                         .foregroundStyle(viewModel.completedAllImages ? .green : .orange)
 
                     Text("Session Complete")

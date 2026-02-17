@@ -21,10 +21,10 @@ struct BoardCard: View {
 
             VStack(alignment: .leading, spacing: 2) {
                 Text(board.name)
-                    .font(.headline)
+                    .font(.title3)
                     .lineLimit(1)
                 Text("\(board.images.count) image\(board.images.count == 1 ? "" : "s")")
-                    .font(.caption)
+                    .font(.subheadline)
                     .foregroundStyle(.secondary)
             }
             .padding(.horizontal, 4)

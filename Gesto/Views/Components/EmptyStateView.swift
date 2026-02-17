@@ -10,14 +10,14 @@ struct EmptyStateView: View {
     var body: some View {
         VStack(spacing: 16) {
             Image(systemName: icon)
-                .font(.system(size: 48))
+                .font(.system(size: 56))
                 .foregroundStyle(.secondary)
             Text(title)
-                .font(.title2)
+                .font(.title)
                 .foregroundStyle(.secondary)
             if let message {
                 Text(message)
-                    .font(.body)
+                    .font(.title3)
                     .foregroundStyle(.tertiary)
             }
             if let buttonTitle, let action {

@@ -4,15 +4,11 @@ import SwiftData
 struct HistoryView: View {
     @Environment(\.modelContext) private var modelContext
     @Query(sort: \SessionRecord.startedAt, order: .reverse) private var records: [SessionRecord]
-    @State private var boardFilter: String?
-
-    private var boardNames: [String] {
-        Array(Set(records.map(\.boardName))).sorted()
-    }
+    @State private var searchText = ""
 
     private var filteredRecords: [SessionRecord] {
-        guard let boardFilter else { return records }
-        return records.filter { $0.boardName == boardFilter }
+        if searchText.isEmpty { return records }
+        return records.filter { $0.boardName.localizedCaseInsensitiveContains(searchText) }
     }
 
     private var thisWeekRecords: [SessionRecord] {
@@ -35,17 +31,6 @@ struct HistoryView: View {
                 List {
                     weekSummarySection
 
-                    if boardNames.count > 1 {
-                        Section {
-                            Picker("Filter by board", selection: $boardFilter) {
-                                Text("All Boards").tag(nil as String?)
-                                ForEach(boardNames, id: \.self) { name in
-                                    Text(name).tag(name as String?)
-                                }
-                            }
-                        }
-                    }
-
                     Section("Sessions") {
                         ForEach(filteredRecords) { record in
                             SessionRow(record: record)
@@ -56,6 +41,7 @@ struct HistoryView: View {
             }
         }
         .navigationTitle("History")
+        .searchable(text: $searchText, prompt: "Filter sessions")
     }
 
     // MARK: - Week Summary
@@ -86,9 +72,9 @@ struct HistoryView: View {
     private func weekStat(_ value: String, label: String) -> some View {
         VStack(spacing: 4) {
             Text(value)
-                .font(.title2.bold().monospacedDigit())
+                .font(.title.bold().monospacedDigit())
             Text(label)
-                .font(.caption)
+                .font(.subheadline)
                 .foregroundStyle(.secondary)
         }
         .frame(maxWidth: .infinity)
@@ -113,15 +99,15 @@ private struct SessionRow: View {
             VStack(alignment: .leading, spacing: 4) {
                 HStack(spacing: 6) {
                     Text(record.boardName)
-                        .font(.headline)
+                        .font(.title3)
                     if record.completedAllImages {
                         Image(systemName: "checkmark.circle.fill")
-                            .font(.caption)
+                            .font(.subheadline)
                             .foregroundStyle(.green)
                     }
                 }
                 Text(record.startedAt, format: .dateTime.month(.abbreviated).day().hour().minute())
-                    .font(.caption)
+                    .font(.subheadline)
                     .foregroundStyle(.secondary)
             }
 
@@ -129,9 +115,9 @@ private struct SessionRow: View {
 
             VStack(alignment: .trailing, spacing: 4) {
                 Text(formatDuration(record.duration))
-                    .font(.subheadline.monospacedDigit())
+                    .font(.body.monospacedDigit())
                 Text("\(record.imageCount) images \u{00B7} \(formatInterval(record.timerInterval))")
-                    .font(.caption)
+                    .font(.subheadline)
                     .foregroundStyle(.secondary)
             }
         }

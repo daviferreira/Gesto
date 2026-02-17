@@ -99,7 +99,7 @@ struct LibraryView: View {
                                 .font(.largeTitle.bold())
                                 .foregroundStyle(.orange)
                             Text("New Board")
-                                .font(.headline)
+                                .font(.title3)
                                 .foregroundStyle(.secondary)
                         }
                     }
@@ -121,9 +121,9 @@ struct LibraryView: View {
             // Match BoardCard text area height
             VStack(alignment: .leading, spacing: 2) {
                 Text(" ")
-                    .font(.headline)
+                    .font(.title3)
                 Text(" ")
-                    .font(.caption)
+                    .font(.subheadline)
             }
             .padding(.horizontal, 4)
             .opacity(0)
@@ -136,7 +136,7 @@ struct LibraryView: View {
         VStack(spacing: 16) {
             TextField("Board name...", text: $newBoardName)
                 .textFieldStyle(.plain)
-                .font(.title3)
+                .font(.title2)
                 .padding(10)
                 .background(.quaternary.opacity(0.5), in: RoundedRectangle(cornerRadius: 8))
                 .focused($isNewBoardFocused)
