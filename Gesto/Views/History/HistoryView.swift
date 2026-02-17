@@ -138,3 +138,19 @@ private struct SessionRow: View {
         .padding(.vertical, 2)
     }
 }
+
+#Preview("With records") {
+    NavigationStack {
+        HistoryView()
+    }
+    .frame(width: 600, height: 500)
+    .modelContainer(PreviewContainer().container)
+}
+
+#Preview("Empty") {
+    NavigationStack {
+        HistoryView()
+    }
+    .frame(width: 600, height: 500)
+    .modelContainer(for: [Board.self, SessionRecord.self], inMemory: true)
+}

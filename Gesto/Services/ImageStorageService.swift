@@ -2,6 +2,8 @@ import Foundation
 import CryptoKit
 import UniformTypeIdentifiers
 import ImageIO
+import Vision
+import AppKit
 
 actor ImageStorageService {
     static let shared = ImageStorageService()
@@ -74,39 +76,69 @@ actor ImageStorageService {
             try data.write(to: destinationURL)
         }
 
-        try generateThumbnail(from: imageSource, filename: filename, boardId: boardId)
+        let focalY = try generateThumbnail(from: imageSource, filename: filename, boardId: boardId)
 
-        return ImportedImage(filename: filename, fileHash: hash, width: width, height: height)
+        return ImportedImage(filename: filename, fileHash: hash, width: width, height: height, focalY: focalY)
     }
 
     // MARK: - Thumbnail Generation
 
-    private func generateThumbnail(from imageSource: CGImageSource, filename: String, boardId: UUID) throws {
+    /// Generates a resized thumbnail and returns the focal Y (0-1, top-left origin) from face detection.
+    private func generateThumbnail(from imageSource: CGImageSource, filename: String, boardId: UUID) throws -> Double {
         let thumbDir = thumbnailDirectory(for: boardId)
         try fileManager.createDirectory(at: thumbDir, withIntermediateDirectories: true)
 
-        let thumbURL = thumbnailURL(for: filename, boardId: boardId)
-        guard !fileManager.fileExists(atPath: thumbURL.path) else { return }
-
         let options: [CFString: Any] = [
-            kCGImageSourceThumbnailMaxPixelSize: 300,
+            kCGImageSourceThumbnailMaxPixelSize: 400,
             kCGImageSourceCreateThumbnailFromImageAlways: true,
             kCGImageSourceCreateThumbnailWithTransform: true
         ]
 
-        guard let cgThumbnail = CGImageSourceCreateThumbnailAtIndex(imageSource, 0, options as CFDictionary) else { return }
+        guard let cgThumbnail = CGImageSourceCreateThumbnailAtIndex(imageSource, 0, options as CFDictionary) else {
+            return 0.5
+        }
 
-        guard let destination = CGImageDestinationCreateWithURL(
-            thumbURL as CFURL,
-            UTType.jpeg.identifier as CFString,
-            1,
-            nil
-        ) else { return }
+        // Detect faces for focal point
+        let focalY = detectFocalY(in: cgThumbnail)
 
-        CGImageDestinationAddImage(destination, cgThumbnail, [
-            kCGImageDestinationLossyCompressionQuality: 0.8
-        ] as CFDictionary)
-        CGImageDestinationFinalize(destination)
+        let thumbURL = thumbnailURL(for: filename, boardId: boardId)
+        if !fileManager.fileExists(atPath: thumbURL.path) {
+            guard let destination = CGImageDestinationCreateWithURL(
+                thumbURL as CFURL,
+                UTType.jpeg.identifier as CFString,
+                1,
+                nil
+            ) else { return focalY }
+
+            CGImageDestinationAddImage(destination, cgThumbnail, [
+                kCGImageDestinationLossyCompressionQuality: 0.85
+            ] as CFDictionary)
+            CGImageDestinationFinalize(destination)
+        }
+
+        return focalY
+    }
+
+    /// Detects faces and returns the focal Y as a normalized value (0-1, origin top-left).
+    /// Returns 0.5 (center) if no faces found.
+    private func detectFocalY(in cgImage: CGImage) -> Double {
+        let request = VNDetectFaceRectanglesRequest()
+        let handler = VNImageRequestHandler(cgImage: cgImage, options: [:])
+        try? handler.perform([request])
+
+        guard let results = request.results, !results.isEmpty else { return 0.5 }
+
+        // Average the top of face bounding boxes (maxY in Vision coords = top of face)
+        // Use maxY + 15% of height to include hair/top of head
+        let avgFocalY = results.map { face -> CGFloat in
+            let topOfHead = min(1.0, face.boundingBox.maxY + face.boundingBox.height * 0.15)
+            let center = face.boundingBox.midY
+            // Bias toward top of head (60/40) to keep full head in frame
+            return topOfHead * 0.6 + center * 0.4
+        }.reduce(0, +) / CGFloat(results.count)
+
+        // Vision: origin bottom-left → convert to top-left origin
+        return Double(1.0 - avgFocalY)
     }
 
     // MARK: - Delete
@@ -166,4 +198,5 @@ struct ImportedImage: Sendable {
     let fileHash: String
     let width: Int
     let height: Int
+    let focalY: Double
 }

@@ -38,7 +38,6 @@ struct PracticeView: View {
                 HStack {
                     transformIndicators
                     Spacer()
-                    imageCounter
                 }
                 .padding()
 
@@ -219,15 +218,6 @@ struct PracticeView: View {
             .foregroundStyle(.orange.opacity(0.8))
             .padding(4)
             .background(.black.opacity(0.5), in: RoundedRectangle(cornerRadius: 4))
-    }
-
-    private var imageCounter: some View {
-        Text("\(viewModel.currentIndex + 1) / \(viewModel.images.count)")
-            .font(.caption.monospacedDigit())
-            .foregroundStyle(.white.opacity(0.6))
-            .padding(.horizontal, 10)
-            .padding(.vertical, 6)
-            .background(.black.opacity(0.5), in: RoundedRectangle(cornerRadius: 6))
     }
 
     private var timerOverlay: some View {

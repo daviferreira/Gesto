@@ -34,24 +34,23 @@ struct BoardCard: View {
     }
 }
 
+#Preview {
+    @Previewable @State var board = Board(name: "Figure Drawing")
+    BoardCard(board: board)
+        .frame(width: 220)
+        .modelContainer(for: Board.self, inMemory: true)
+}
+
 private struct CardThumbnail: View {
     let image: ReferenceImage
     let boardId: UUID
     @State private var nsImage: NSImage?
 
     var body: some View {
-        Group {
-            if let nsImage {
-                Image(nsImage: nsImage)
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-            } else {
-                Color.clear
+        FocalImage(nsImage: nsImage, focalY: image.focalY)
+            .task {
+                let thumbURL = ImageStorageService.shared.thumbnailURL(for: image.filename, boardId: boardId)
+                nsImage = NSImage(contentsOf: thumbURL)
             }
-        }
-        .task {
-            let thumbURL = ImageStorageService.shared.thumbnailURL(for: image.filename, boardId: boardId)
-            nsImage = NSImage(contentsOf: thumbURL)
-        }
     }
 }

@@ -146,3 +146,9 @@ struct SessionSetupSheet: View {
         }
     }
 }
+
+#Preview {
+    @Previewable @State var board = Board(name: "Figure Drawing")
+    SessionSetupSheet(board: board) { _ in }
+        .modelContainer(for: Board.self, inMemory: true)
+}

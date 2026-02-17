@@ -17,3 +17,17 @@ struct TimerBar: View {
         .clipShape(Capsule())
     }
 }
+
+#Preview {
+    VStack(spacing: 20) {
+        TimerBar(progress: 0.75)
+            .frame(height: 3)
+        TimerBar(progress: 0.25)
+            .frame(height: 3)
+        TimerBar(progress: 1.0)
+            .frame(height: 3)
+    }
+    .padding()
+    .background(.black)
+    .frame(width: 400)
+}

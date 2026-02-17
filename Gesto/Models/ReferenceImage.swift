@@ -10,10 +10,11 @@ final class ReferenceImage {
     var height: Int
     var addedAt: Date
     var sortOrder: Int
+    var focalY: Double = 0.5
 
     var board: Board?
 
-    init(filename: String, fileHash: String, width: Int, height: Int, sortOrder: Int = 0) {
+    init(filename: String, fileHash: String, width: Int, height: Int, sortOrder: Int = 0, focalY: Double = 0.5) {
         self.id = UUID()
         self.filename = filename
         self.fileHash = fileHash
@@ -21,5 +22,6 @@ final class ReferenceImage {
         self.height = height
         self.addedAt = Date()
         self.sortOrder = sortOrder
+        self.focalY = focalY
     }
 }

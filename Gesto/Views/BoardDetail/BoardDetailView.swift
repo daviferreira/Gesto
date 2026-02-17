@@ -12,6 +12,7 @@ struct BoardDetailView: View {
     @State private var showingSessionSetup = false
     @State private var selectedImages: Set<UUID> = []
     @State private var isDropTargeted = false
+    @State private var draggingImageId: UUID?
 
     private var board: Board? { boards.first }
 
@@ -115,6 +116,7 @@ struct BoardDetailView: View {
                         boardId: boardId,
                         isSelected: selectedImages.contains(image.id)
                     )
+                    .opacity(draggingImageId == image.id ? 0.4 : 1.0)
                     .onTapGesture {
                         toggleSelection(image.id)
                     }
@@ -123,9 +125,35 @@ struct BoardDetailView: View {
                             Task { await viewModel?.deleteImages([image.id]) }
                         }
                     }
+                    .draggable(image.id.uuidString) {
+                        ImageThumbnail(
+                            image: image,
+                            boardId: boardId,
+                            isSelected: false
+                        )
+                        .frame(width: 100, height: 100)
+                        .onAppear { draggingImageId = image.id }
+                    }
+                    .dropDestination(for: String.self) { items, _ in
+                        guard let droppedIdString = items.first,
+                              let droppedId = UUID(uuidString: droppedIdString),
+                              droppedId != image.id else { return false }
+                        reorderImage(droppedId, before: image.id)
+                        return true
+                    } isTargeted: { targeted in
+                        // Visual feedback handled by opacity
+                    }
                 }
             }
             .padding()
+        }
+        .onChange(of: draggingImageId) {
+            // Reset after drag ends (small delay for drop to process)
+            if draggingImageId != nil {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    draggingImageId = nil
+                }
+            }
         }
     }
 
@@ -162,6 +190,21 @@ struct BoardDetailView: View {
     }
 
     // MARK: - Actions
+
+    private func reorderImage(_ sourceId: UUID, before targetId: UUID) {
+        var images = sortedImages
+        guard let sourceIndex = images.firstIndex(where: { $0.id == sourceId }),
+              let targetIndex = images.firstIndex(where: { $0.id == targetId }) else { return }
+
+        let moved = images.remove(at: sourceIndex)
+        images.insert(moved, at: targetIndex)
+
+        for (index, image) in images.enumerated() {
+            image.sortOrder = index
+        }
+        board?.updatedAt = Date()
+        draggingImageId = nil
+    }
 
     private func toggleSelection(_ id: UUID) {
         if selectedImages.contains(id) {

@@ -31,3 +31,22 @@ struct EmptyStateView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
+
+#Preview("With button") {
+    EmptyStateView(
+        icon: "photo.on.rectangle.angled",
+        title: "Create your first board",
+        message: "Organize your reference images into themed boards",
+        buttonTitle: "New Board"
+    ) {}
+    .frame(width: 500, height: 400)
+}
+
+#Preview("Without button") {
+    EmptyStateView(
+        icon: "clock",
+        title: "No sessions yet",
+        message: "Complete a drawing session to see your history here"
+    )
+    .frame(width: 500, height: 400)
+}

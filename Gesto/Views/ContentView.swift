@@ -21,6 +21,7 @@ enum SessionPhase {
 struct ContentView: View {
     @State private var selectedSidebar: SidebarItem? = .library
     @State private var sessionPhase: SessionPhase = .idle
+    @State private var navigationPath = NavigationPath()
 
     var body: some View {
         ZStack {
@@ -61,11 +62,11 @@ struct ContentView: View {
                 Divider()
 
                 // Detail content
-                NavigationStack {
+                NavigationStack(path: $navigationPath) {
                     Group {
                         switch selectedSidebar {
                         case .library, nil:
-                            LibraryView()
+                            LibraryView(navigationPath: $navigationPath)
                         case .history:
                             HistoryView()
                         }
@@ -110,4 +111,10 @@ struct ContentView: View {
             }
         }
     }
+}
+
+#Preview {
+    ContentView()
+        .modelContainer(PreviewContainer().container)
+        .preferredColorScheme(.dark)
 }

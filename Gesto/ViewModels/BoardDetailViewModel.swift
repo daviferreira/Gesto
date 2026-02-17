@@ -43,7 +43,8 @@ class BoardDetailViewModel {
                     fileHash: result.fileHash,
                     width: result.width,
                     height: result.height,
-                    sortOrder: board.images.count
+                    sortOrder: board.images.count,
+                    focalY: result.focalY
                 )
                 refImage.board = board
                 modelContext.insert(refImage)

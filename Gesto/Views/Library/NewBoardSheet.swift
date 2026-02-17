@@ -7,28 +7,57 @@ struct NewBoardSheet: View {
     @FocusState private var isNameFocused: Bool
 
     var body: some View {
-        VStack(spacing: 20) {
-            Text("New Board")
-                .font(.title2.bold())
+        VStack(spacing: 0) {
+            // Header
+            VStack(spacing: 8) {
+                Image(systemName: "square.grid.2x2")
+                    .font(.system(size: 28))
+                    .foregroundStyle(.orange)
 
-            TextField("Board name", text: $boardName)
-                .textFieldStyle(.roundedBorder)
-                .focused($isNameFocused)
-                .onSubmit(createBoard)
+                Text("New Board")
+                    .font(.title3.bold())
+            }
+            .padding(.top, 28)
+            .padding(.bottom, 20)
 
-            HStack {
+            // Input
+            VStack(alignment: .leading, spacing: 6) {
+                Text("Name")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+
+                TextField("e.g. Figure Drawing, Landscapes...", text: $boardName)
+                    .textFieldStyle(.plain)
+                    .font(.body)
+                    .padding(10)
+                    .background(.quaternary.opacity(0.5), in: RoundedRectangle(cornerRadius: 8))
+                    .focused($isNameFocused)
+                    .onSubmit(createBoard)
+            }
+            .padding(.horizontal, 24)
+
+            Spacer().frame(height: 24)
+
+            // Actions
+            HStack(spacing: 12) {
                 Button("Cancel") { dismiss() }
                     .keyboardShortcut(.cancelAction)
+                    .buttonStyle(.plain)
+                    .foregroundStyle(.secondary)
 
-                Spacer()
-
-                Button("Create", action: createBoard)
-                    .keyboardShortcut(.defaultAction)
-                    .disabled(boardName.trimmingCharacters(in: .whitespaces).isEmpty)
+                Button(action: createBoard) {
+                    Text("Create Board")
+                        .frame(maxWidth: .infinity)
+                }
+                .keyboardShortcut(.defaultAction)
+                .buttonStyle(.borderedProminent)
+                .tint(.orange)
+                .disabled(boardName.trimmingCharacters(in: .whitespaces).isEmpty)
             }
+            .padding(.horizontal, 24)
+            .padding(.bottom, 24)
         }
-        .padding(24)
-        .frame(width: 320)
+        .frame(width: 340)
         .onAppear { isNameFocused = true }
     }
 
@@ -39,4 +68,9 @@ struct NewBoardSheet: View {
         modelContext.insert(board)
         dismiss()
     }
+}
+
+#Preview {
+    NewBoardSheet()
+        .modelContainer(for: Board.self, inMemory: true)
 }
