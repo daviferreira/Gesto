@@ -1,5 +1,5 @@
-import SwiftUI
 import SwiftData
+import SwiftUI
 
 struct LibraryView: View {
     @Binding var navigationPath: NavigationPath
@@ -96,65 +96,66 @@ struct LibraryView: View {
                     } else {
                         VStack(spacing: 8) {
                             Image(systemName: "plus")
-                                .font(.title2.bold())
+                                .font(.largeTitle.bold())
                                 .foregroundStyle(.orange)
                             Text("New Board")
-                                .font(.subheadline)
+                                .font(.headline)
                                 .foregroundStyle(.secondary)
                         }
                     }
                 }
+                .background(
+                    RoundedRectangle(cornerRadius: 8)
+                        .strokeBorder(
+                            showingNewBoard ? .orange : .secondary.opacity(0.3),
+                            style: StrokeStyle(lineWidth: showingNewBoard ? 2 : 1.5, dash: showingNewBoard ? [] : [8, 4])
+                        )
+                )
+                .contentShape(Rectangle())
+                .onTapGesture {
+                    if !showingNewBoard {
+                        showNewBoardForm()
+                    }
+                }
 
-            // Invisible spacer to match BoardCard height
+            // Match BoardCard text area height
             VStack(alignment: .leading, spacing: 2) {
-                Text(" ").font(.headline)
-                Text(" ").font(.caption)
+                Text(" ")
+                    .font(.headline)
+                Text(" ")
+                    .font(.caption)
             }
             .padding(.horizontal, 4)
             .opacity(0)
         }
         .padding(8)
-        .background(
-            RoundedRectangle(cornerRadius: 12)
-                .strokeBorder(
-                    showingNewBoard ? .orange : .secondary.opacity(0.3),
-                    style: StrokeStyle(lineWidth: showingNewBoard ? 2 : 1.5, dash: showingNewBoard ? [] : [8, 4])
-                )
-        )
-        .contentShape(Rectangle())
-        .onTapGesture {
-            if !showingNewBoard {
-                showNewBoardForm()
-            }
-        }
         .animation(.easeInOut(duration: 0.2), value: showingNewBoard)
     }
 
     private var newBoardForm: some View {
-        VStack(spacing: 12) {
+        VStack(spacing: 16) {
             TextField("Board name...", text: $newBoardName)
                 .textFieldStyle(.plain)
-                .font(.body)
-                .padding(8)
-                .background(.quaternary.opacity(0.5), in: RoundedRectangle(cornerRadius: 6))
+                .font(.title3)
+                .padding(10)
+                .background(.quaternary.opacity(0.5), in: RoundedRectangle(cornerRadius: 8))
                 .focused($isNewBoardFocused)
                 .onSubmit(createBoard)
                 .onExitCommand { cancelNewBoard() }
 
-            HStack(spacing: 8) {
+            HStack(spacing: 12) {
                 Button("Cancel") { cancelNewBoard() }
-                    .buttonStyle(.plain)
-                    .foregroundStyle(.secondary)
-                    .font(.caption)
+                    .buttonStyle(.bordered)
+                    .controlSize(.large)
 
                 Button("Create") { createBoard() }
                     .buttonStyle(.borderedProminent)
                     .tint(.orange)
-                    .font(.caption)
+                    .controlSize(.large)
                     .disabled(newBoardName.trimmingCharacters(in: .whitespaces).isEmpty)
             }
         }
-        .padding(.horizontal, 16)
+        .padding(.horizontal, 20)
     }
 
     // MARK: - Actions
@@ -216,4 +217,3 @@ struct LibraryView: View {
     .frame(width: 700, height: 500)
     .modelContainer(for: [Board.self, SessionRecord.self], inMemory: true)
 }
-
