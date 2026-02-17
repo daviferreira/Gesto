@@ -171,7 +171,7 @@ struct PracticeView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
         .padding(.trailing, 24)
         .padding(.bottom, 40)
-        .transition(.opacity)
+        .transition(.move(edge: .bottom).combined(with: .opacity))
         .allowsHitTesting(false)
     }
 
@@ -228,10 +228,6 @@ struct PracticeView: View {
                     .foregroundStyle(.orange)
             }
 
-            Text(formatTime(viewModel.timeRemaining))
-                .font(.caption.monospacedDigit())
-                .foregroundStyle(.white.opacity(0.6))
-
             TimerBar(progress: viewModel.progress)
                 .frame(height: 3)
         }
@@ -240,13 +236,6 @@ struct PracticeView: View {
     }
 
     // MARK: - Helpers
-
-    private func formatTime(_ seconds: TimeInterval) -> String {
-        let total = max(0, Int(ceil(seconds)))
-        let mins = total / 60
-        let secs = total % 60
-        return mins > 0 ? String(format: "%d:%02d", mins, secs) : "\(secs)s"
-    }
 
     private func enterFullScreen() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {

@@ -105,6 +105,9 @@ struct ContentView: View {
         }
         .frame(minWidth: 800, minHeight: 600)
         .tint(.orange)
+        .onChange(of: selectedSidebar) {
+            navigationPath = NavigationPath()
+        }
         .environment(\.startSession) { config in
             withAnimation {
                 sessionPhase = .practicing(config)
